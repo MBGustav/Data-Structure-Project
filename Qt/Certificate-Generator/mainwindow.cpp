@@ -5,6 +5,8 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    check = new Check_User(this);
+    check->show();
     ui->setupUi(this);
 }
 
