@@ -30,7 +30,7 @@ bool Fila::Cheia()
     return false;
 }
 
-void Fila::Insere(Fila* f, Pessoa* x, bool* deuCerto)
+void Fila::Insere(Fila* f, Pessoa x, bool* deuCerto)
 {
     if (f->Vazia()) {
         Node* novoNode = new Node;
@@ -51,7 +51,7 @@ void Fila::Insere(Fila* f, Pessoa* x, bool* deuCerto)
     }
 }
 
-void Fila::Retira(Fila* f, Pessoa** x, bool* deuCerto)
+void Fila::Retira(Fila* f, Pessoa* x, bool* deuCerto)
 {
     if (f->Vazia()) {
         *deuCerto = false;

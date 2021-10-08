@@ -5,7 +5,6 @@
 #include <vector>
 
 #include "Fila.hpp"
-//#include "Pessoa.hpp"
 
 using namespace std;
 
@@ -42,10 +41,10 @@ int main(){
             cout << "Testando a inserção na fila..." << endl;
             while (deuCerto)
             {
-                Pessoa* p;
+                Pessoa p;
                 fPessoas->Retira(fPessoas, &p, &deuCerto);
-                cout << "Nome: " << p->getNome() << endl;
-                cout << "Documento: " << p->getDocumento() << endl;
+                cout << "Nome: " << p.nome << endl;
+                cout << "Documento: " << p.cpf << endl;
                 cout << "==================" << endl;
             }
             
@@ -96,7 +95,9 @@ void CSVtoFila(string fPath, Fila* f)
             lineVector.push_back(celula);
         }
         //Criando um objeto Pessoa com as informações desta linha
-        Pessoa* p = new Pessoa(lineVector[0], lineVector[1]);
+        Pessoa p;
+        p.nome = lineVector[0];
+        p.cpf = lineVector[1];
         f->Insere(f, p, &deuCerto);
     }
 }
