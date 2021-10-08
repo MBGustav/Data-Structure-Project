@@ -2,6 +2,10 @@
 #include <string>
 #include <sstream>
 #include <fstream>
+
+#include "Fila.hpp"
+#include "Pessoa.hpp"
+
 using namespace std;
 
 void novoCadastro(string* nome, string* cpf);
