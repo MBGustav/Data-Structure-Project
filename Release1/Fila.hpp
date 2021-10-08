@@ -9,12 +9,13 @@
 #define Fila_hpp
 
 #include <stdio.h>
+#include "Pessoa.hpp"
 
 using namespace std;
 
 typedef struct Node
 {
-    char info;
+    Pessoa* info;
     Node* next;
 }Node;
 
@@ -27,8 +28,8 @@ public:
     ~Fila();
     bool Vazia();
     bool Cheia();
-    void Insere(Fila* f, char x, bool* deuCerto);
-    void Retira(Fila* f, char* x, bool* deuCerto);
+    void Insere(Fila* f, Pessoa* x, bool* deuCerto);
+    void Retira(Fila* f, Pessoa** x, bool* deuCerto);
 
 };
 

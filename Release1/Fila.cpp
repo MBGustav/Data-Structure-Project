@@ -30,7 +30,7 @@ bool Fila::Cheia()
     return false;
 }
 
-void Fila::Insere(Fila* f, char x, bool* deuCerto)
+void Fila::Insere(Fila* f, Pessoa* x, bool* deuCerto)
 {
     if (f->Vazia()) {
         Node* novoNode = new Node;
@@ -50,7 +50,8 @@ void Fila::Insere(Fila* f, char x, bool* deuCerto)
         *deuCerto = false;
     }
 }
-void Fila::Retira(Fila* f, char* x, bool* deuCerto)
+
+void Fila::Retira(Fila* f, Pessoa** x, bool* deuCerto)
 {
     if (f->Vazia()) {
         *deuCerto = false;
@@ -61,7 +62,7 @@ void Fila::Retira(Fila* f, char* x, bool* deuCerto)
         f->ultimo->next = nAux;
         *deuCerto = true;
     } else {
-        *x = f->ultimo->info;
+        *x = (f->ultimo->info);
         f->ultimo = NULL;
         *deuCerto = true;
     }
