@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "Fila.cpp"
-
+#include "geradorPDF.cpp"
 using namespace std;
 
 void novoCadastro(string* nome, string* cpf);
@@ -18,9 +18,11 @@ int main(){
     bool deuCerto = true;
     int controle = 0;
     Pessoa p;
-    string nome, cpf;
+    string nome, cpf, nomeEvento;
     Fila* fPessoas = new Fila();
-
+    cout << "Digite o nome do evento: ";
+    cin.ignore(64, '\n');
+    getline(cin, nomeEvento);
     while (controle != 2)
     {
         cout << "O que deseja fazer?" << endl;
@@ -46,6 +48,7 @@ int main(){
                 cout << "Documento: " << p.cpf << endl;
                 cout << "==================" << endl;
                 fPessoas->Retira(fPessoas, &p, &deuCerto);
+                geraCertificado(nome, nomeEvento);
             }
             
             break;
