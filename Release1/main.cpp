@@ -21,7 +21,6 @@ int main(){
     string nome, cpf, nomeEvento;
     Fila* fPessoas = new Fila();
     cout << "Digite o nome do evento: ";
-    cin.ignore(64, '\n');
     getline(cin, nomeEvento);
     while (controle != 2)
     {
@@ -47,8 +46,8 @@ int main(){
                 cout << "Nome: " << p.nome << endl;
                 cout << "Documento: " << p.cpf << endl;
                 cout << "==================" << endl;
+                geraCertificado(p.nome, nomeEvento);
                 fPessoas->Retira(fPessoas, &p, &deuCerto);
-                geraCertificado(nome, nomeEvento);
             }
             
             break;

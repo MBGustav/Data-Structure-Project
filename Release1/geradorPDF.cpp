@@ -4,6 +4,19 @@
 #include <podofo.h>
 
 using namespace PoDoFo;
+/*
+ * PLEASE UPDATE THE FOLLOWING PARAMETERS BEFORE PROCEEDING
+ */
+
+string outputLoc = "/Users/mengo/Desktop/";
+string imagePath = "/Users/mengo/Documents/UFSCar/2021_1/AED1/Data-Structure-Project/pdf2/medal.png";
+const char* imageSrc = imagePath.c_str();
+/* modelPdf: Set the variable in case you want to generate the certificate by modifying an existing PDF file (such as a form)
+ * and use the "geraCertificado2" function when iterating through a "Fila". We'll probably use these only on later versions
+ */
+string modelPdf = "/Users/mengo/Desktop/grid_sheet.pdf";
+const char* modelPdfSrc = modelPdf.c_str();
+
 
 void PrintHelp()
 {
@@ -16,7 +29,7 @@ void PrintHelp()
 
 void geraCertificado( std::string nome, std::string evento )
 {   
-    std::string fName = "/Users/mengo/Desktop/" + nome + ".pdf";
+    std::string fName = outputLoc + nome + ".pdf";
     const char* fNameExt = fName.c_str();
     PdfStreamedDocument document( fNameExt );
     PdfPage* pPage;
@@ -57,7 +70,7 @@ void geraCertificado( std::string nome, std::string evento )
 
     //Carregando a imagem
     PdfImage logo(&document);
-    logo.LoadFromFile("/Users/mengo/Documents/UFSCar/2021_1/AED1/Data-Structure-Project/pdf2/medal.png");
+    logo.LoadFromFile(imageSrc);
     painter.DrawImage(pPage->GetPageSize().GetWidth() - 120.69, pPage->GetPageSize().GetHeight() - 80.69, &logo);
     
     //Encerrando a Manipulação
@@ -77,11 +90,11 @@ void geraCertificado( std::string nome, std::string evento )
 void geraCertificado2(std::string nome,std::string evento)
 {
     //Definindo o nome do arquivo final (nome do participante)
-    std::string fName = "/Users/mengo/Desktop/" + nome + ".pdf";
+    std::string fName = outputLoc + nome + ".pdf";
     const char* fNameExt = fName.c_str();
     /*Carregando o pdf existente (modelo a ser preenchido), bem
      como sua única página*/
-    PdfMemDocument pdfExistente("/Users/mengo/Desktop/grid_sheet.pdf");
+    PdfMemDocument pdfExistente(modelPdfSrc);
     PdfPage* pPage = pdfExistente.GetPage(0);
     if( !pPage )
     {
@@ -121,27 +134,3 @@ void geraCertificado2(std::string nome,std::string evento)
     //Gravando o documento (PdfMemDocument) no disco
     pdfExistente.Write(fNameExt);
 }
-
-// int main( int argc, char* argv[] )
-// {
-    
-//     std::string pessoa;
-//     std::string evento;
-//     std::cout << "Digite o nome da pessoa: ";
-//     std::getline(std::cin, pessoa);
-//     std::cout << "Digite o nome do evento: ";
-//     std::getline(std::cin, evento);
-    
-//     try {
-//          geraCertificado( pessoa, evento );
-//     } catch( const PdfError & eCode ) {
-//         eCode.PrintErrorMsg();
-//         return eCode.GetError();
-//     }
-
-//     std::cout << std::endl
-//               << "PDF criado com sucesso, cria."  << std::endl << std::endl;
-    
-//     return 0;
-// }
-
