@@ -11,6 +11,11 @@ Fila::Fila()
 {
     //Criando a fila vazia
     this->ultimo = NULL;
+    /*
+    IDEIA: Inicializar o data.csv já no construtor.
+    1)Caso data.csv não exista, ele somente cria o arquivo
+    2)Caso data.csv já exista, ele carrega os arquivos para a fila.
+    */
 }
 
 Fila::~Fila(){delete ultimo;}

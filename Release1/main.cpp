@@ -4,8 +4,8 @@
 #include <fstream>
 #include <vector>
 
-#include "Fila.hpp"
-
+#include "Fila.cpp"
+#include "geradorPDF.cpp"
 using namespace std;
 
 void novoCadastro(string* nome, string* cpf);
@@ -16,21 +16,22 @@ int main(){
     //Interface principal
     //Decl. Globais
     bool deuCerto = true;
-    int controle;
-    string nome, cpf;
+    int controle = 0;
+    Pessoa p;
+    string nome, cpf, nomeEvento;
     Fila* fPessoas = new Fila();
-
-
-    cout << "O que deseja fazer?" << endl;
-    cout << "1. Inserir um participante na lista" << endl;
-    cout << "2. Continuar para a emissão de certificados" << endl;
-    cin >> controle;
-
+    cout << "Digite o nome do evento: ";
+    getline(cin, nomeEvento);
     while (controle != 2)
     {
+        cout << "O que deseja fazer?" << endl;
+        cout << "1. Inserir um participante na lista" << endl;
+        cout << "2. Continuar para a emissão de certificados" << endl;
+        cin >> controle;
         switch (controle)
         {
         case 1:
+            cin.ignore(64, '\n');
             novoCadastro(&nome, &cpf);
             CSVcreator("data.csv", nome, cpf);
             break;
@@ -39,13 +40,14 @@ int main(){
             cout << "Passando para a emissão dos certificados..." << endl;
             CSVtoFila("data.csv", fPessoas);
             cout << "Testando a inserção na fila..." << endl;
+            fPessoas->Retira(fPessoas, &p, &deuCerto);
             while (deuCerto)
             {
-                Pessoa p;
-                fPessoas->Retira(fPessoas, &p, &deuCerto);
                 cout << "Nome: " << p.nome << endl;
                 cout << "Documento: " << p.cpf << endl;
                 cout << "==================" << endl;
+                geraCertificado(p.nome, nomeEvento);
+                fPessoas->Retira(fPessoas, &p, &deuCerto);
             }
             
             break;
@@ -75,7 +77,7 @@ void CSVcreator(string fPath, string nome, string cpf) {
     arq.open(fPath, ios::out | ios::app);
     //Gravando as informações no arquivo
     arq << nome << ", ";
-    arq << cpf << ", ";
+    arq << cpf << "\n";
 }
 
 void CSVtoFila(string fPath, Fila* f)

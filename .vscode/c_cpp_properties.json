@@ -3,7 +3,11 @@
         {
             "name": "Mac",
             "includePath": [
-                "${default}"
+                "${default}",
+                "/opt/homebrew/Cellar",
+                "/opt/homebrew/Cellar/podofo/0.9.7/include/podofo",
+                "/opt/homebrew/Cellar/podofo/0.9.7/include",
+                "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1"
             ],
             "compilerPath": "/usr/bin/clang",
             "cStandard": "c17",
