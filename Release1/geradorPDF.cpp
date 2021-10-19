@@ -8,13 +8,13 @@ using namespace PoDoFo;
  * PLEASE UPDATE THE FOLLOWING PARAMETERS BEFORE PROCEEDING
  */
 
-string outputLoc = "/Users/mengo/Desktop/";
-string imagePath = "/Users/mengo/Documents/UFSCar/2021_1/AED1/Data-Structure-Project/pdf2/medal.png";
+string outputLoc = "./PDFoutput/";
+string imagePath = "./resources/medal.png";
 const char* imageSrc = imagePath.c_str();
 /* modelPdf: Set the variable in case you want to generate the certificate by modifying an existing PDF file (such as a form)
  * and use the "geraCertificado2" function when iterating through a "Fila". We'll probably use these only on later versions
  */
-string modelPdf = "/Users/mengo/Desktop/grid_sheet.pdf";
+string modelPdf = "/resources/grid_sheet.pdf";
 const char* modelPdfSrc = modelPdf.c_str();
 
 
