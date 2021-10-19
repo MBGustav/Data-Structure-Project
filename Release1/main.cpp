@@ -46,7 +46,7 @@ int main(){
                 cout << "Nome: " << p.nome << endl;
                 cout << "Documento: " << p.cpf << endl;
                 cout << "==================" << endl;
-                geraCertificado(p.nome, nomeEvento);
+                geraCertificado2(p.nome, nomeEvento);
                 fPessoas->Retira(fPessoas, &p, &deuCerto);
             }
             

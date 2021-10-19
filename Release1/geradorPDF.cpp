@@ -14,7 +14,7 @@ const char* imageSrc = imagePath.c_str();
 /* modelPdf: Set the variable in case you want to generate the certificate by modifying an existing PDF file (such as a form)
  * and use the "geraCertificado2" function when iterating through a "Fila". We'll probably use these only on later versions
  */
-string modelPdf = "/resources/grid_sheet.pdf";
+string modelPdf = "./resources/preview_illustrator.pdf";
 const char* modelPdfSrc = modelPdf.c_str();
 
 
