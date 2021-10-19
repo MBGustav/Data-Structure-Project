@@ -11,15 +11,18 @@ CONFIG += c++11
 SOURCES += \
     check_user.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    questionario.cpp
 
 HEADERS += \
     check_user.h \
-    mainwindow.h
+    mainwindow.h \
+    questionario.h
 
 FORMS += \
     check_user.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    questionario.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
