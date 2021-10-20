@@ -2,10 +2,10 @@
 using namespace std;
 typedef struct Evento
 {
-    string nomeEvento;
-    string descritivo; //comparecido à Palestra; concluído o Curso/Treinamento; etc
+    char nomeEvento[128];
+    char descritivo[128]; //comparecido à Palestra; concluído o Curso/Treinamento; etc
     int cargaHoraria;
-    string assinaturaPath; //Caminho para a imagem da assinatura
-    string responsavel; //Nome do diretor, coordenador, etc., que está assinando o certificado
-    string cargo; //Cargo do responsável (diretor, coordenador, etc.)
+    char assinaturaPath[128]; //Caminho para a imagem da assinatura
+    char responsavel[128]; //Nome do diretor, coordenador, etc., que está assinando o certificado
+    char cargo[128]; //Cargo do responsável (diretor, coordenador, etc.)
 }Evento;

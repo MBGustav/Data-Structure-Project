@@ -6,6 +6,8 @@
 
 #include "Fila.hpp"
 #include "geradorPDF.cpp"
+#include "Evento.cpp"
+
 using namespace std;
 
 void novoCadastro(string* nome, string* cpf);
@@ -20,8 +22,45 @@ int main(){
     Pessoa p;
     string nome, cpf, nomeEvento;
     Fila* fPessoas = new Fila();
-    cout << "Digite o nome do evento: ";
-    getline(cin, nomeEvento);
+    bool temArquivo = true;
+
+    //Buscando o arquivo info.dat
+    streampos pos;
+    ifstream infile;
+    infile.open("info.dat", ios::binary | ios::in);
+    if (!infile) {
+        temArquivo = false;
+    } else {
+        //Puxar o nome do evento
+        infile.seekg(0, ios::beg);
+        char bufferEvento[sizeof(Evento)];
+        infile.read(bufferEvento, sizeof(Evento));
+        Evento eventoTemp = *reinterpret_cast<Evento*>(bufferEvento);
+        nomeEvento = eventoTemp.nomeEvento;
+    }
+    if (temArquivo) {
+        //Perguntar se deseja criar outro evento
+        cout << "Arquivo \"info.dat\" correspondente ao evento " << nomeEvento << " encontrado!\nDeseja criar outro evento?: " << endl;
+        cout << "1. Utilizar o  \"info.dat\" atual" << endl;
+        cout << "2. Criar outro evento" << endl;
+        cin >> controle;
+        while (controle != 1 && controle != 2)
+        {
+            switch (controle)
+            {
+            case 1:
+                //Nada a ser feito
+                break;
+            
+            case 2:
+                //Criando outro "info.dat"
+
+                break;
+            }
+        }
+    }
+
+    controle = 0;
     while (controle != 2)
     {
         cout << "O que deseja fazer?" << endl;
