@@ -13,6 +13,7 @@ using namespace std;
 void novoCadastro(string* nome, string* cpf);
 void CSVcreator(string fPath, string nome, string cpf);
 void CSVtoFila(string fPath, Fila* f);
+void cria_info_dat();
 
 int main(){
     //Interface principal
@@ -20,7 +21,8 @@ int main(){
     bool deuCerto = true;
     int controle = 0;
     Pessoa p;
-    string nome, cpf, nomeEvento;
+    string nome, cpf;
+    char* nomeEvento;
     Fila* fPessoas = new Fila();
     bool temArquivo = true;
 
@@ -55,6 +57,9 @@ int main(){
             case 2:
                 //Criando outro "info.dat"
 
+                break;
+            default:
+                cout << "Codigo invalido!" << endl;
                 break;
             }
         }
@@ -141,4 +146,8 @@ void CSVtoFila(string fPath, Fila* f)
         p.cpf = lineVector[1];
         f->Insere(f, p, &deuCerto);
     }
+}
+
+void cria_info_dat() {
+    
 }
