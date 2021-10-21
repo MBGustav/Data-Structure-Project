@@ -7,6 +7,7 @@
 #include "Fila.hpp"
 #include "geradorPDF.cpp"
 #include "Evento.cpp"
+//Incluir pessoa_hpp
 
 using namespace std;
 
@@ -21,15 +22,18 @@ int main(){
     bool deuCerto = true;
     int controle = 0;
     Pessoa p;
+    //Parâmetros da pessoa
     string nome, cpf;
-    char* nomeEvento;
+    //Parâmetros do evento
+    string nEvento, tEvento, assinaturaPath, nResponsavel, cargoResponsavel;
+    int cargaHoraria;
     Fila* fPessoas = new Fila();
     bool temArquivo = true;
 
     //Buscando o arquivo info.dat
     streampos pos;
     ifstream infile;
-    infile.open("info.dat", ios::binary | ios::in);
+    infile.open("info.dat", ios::in);
     if (!infile) {
         temArquivo = false;
     } else {
@@ -38,11 +42,12 @@ int main(){
         char bufferEvento[sizeof(Evento)];
         infile.read(bufferEvento, sizeof(Evento));
         Evento eventoTemp = *reinterpret_cast<Evento*>(bufferEvento);
-        nomeEvento = eventoTemp.nomeEvento;
+        nEvento = eventoTemp.nomeEvento;
+        infile.close();
     }
     if (temArquivo) {
         //Perguntar se deseja criar outro evento
-        cout << "Arquivo \"info.dat\" correspondente ao evento " << nomeEvento << " encontrado!\nDeseja criar outro evento?: " << endl;
+        cout << "Arquivo \"info.dat\" correspondente ao evento " << nEvento << " encontrado!\nDeseja criar outro evento?: " << endl;
         cout << "1. Utilizar o  \"info.dat\" atual" << endl;
         cout << "2. Criar outro evento" << endl;
         cin >> controle;
@@ -56,15 +61,29 @@ int main(){
             
             case 2:
                 //Criando outro "info.dat"
-
+                cria_info_dat();
                 break;
             default:
                 cout << "Codigo invalido!" << endl;
                 break;
             }
         }
+    } else {
+        //Criando "info.dat"
+        cria_info_dat();
     }
 
+    //Carregando as informações do "info.dat"
+    fstream info_dat;
+    info_dat.open("./resources/info.dat", ios::in);
+    string line;
+    while (info_dat >> line) {
+        
+    }
+    
+    
+
+    //Seguindo para a manipulação do arquivo de participantes
     controle = 0;
     while (controle != 2)
     {
@@ -90,7 +109,7 @@ int main(){
                 cout << "Nome: " << p.nome << endl;
                 cout << "Documento: " << p.cpf << endl;
                 cout << "==================" << endl;
-                geraCertificado2(p.nome, nomeEvento);
+                geraCertificado2(p.nome, nEvento);
                 fPessoas->Retira(fPessoas, &p, &deuCerto);
             }
             
@@ -149,5 +168,28 @@ void CSVtoFila(string fPath, Fila* f)
 }
 
 void cria_info_dat() {
-    
+    string nEvento, tEvento, cargaHoraria, assinaturaPath, nResponsavel, cargoResponsavel;
+    fstream info_dat;
+    info_dat.open("./resources/info.dat", ios::out | ios::trunc);
+    //Lendo as informações necessárias
+    cout << "Configurando um novo evento" << endl;
+    cout << "Digite o nome do evento: ";
+    getline(cin, nEvento);
+    info_dat << nEvento << "\n";
+    cout << "Digite o tipo do evento (curso, palestra, etc.): ";
+    getline(cin, tEvento);
+    info_dat << tEvento << "\n";
+    cout << "Digite a carga horaria do evento: ";
+    cin >> cargaHoraria;
+    info_dat << cargaHoraria << "\n";
+    cout << "Digite o caminho da assinatura: ";
+    getline(cin, assinaturaPath);
+    info_dat << assinaturaPath << "\n";
+    cout << "Digite o nome do responsavel: ";
+    getline(cin, nResponsavel);
+    info_dat << nResponsavel << "\n";
+    cout << "Digite o cargo do responsavel: ";
+    getline(cin, cargoResponsavel);
+    info_dat << cargoResponsavel << "\n";
+    info_dat.close();
 }
