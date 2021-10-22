@@ -78,7 +78,8 @@ int main(){
     info_dat.open("./resources/info.dat", ios::in);
     string line;
     while (info_dat >> line) {
-        
+        //Precisa implementar o arquivo texto no padrão .csv, mesmo...
+
     }
     
     
@@ -180,7 +181,7 @@ void cria_info_dat() {
     getline(cin, tEvento);
     info_dat << tEvento << "\n";
     cout << "Digite a carga horaria do evento: ";
-    cin >> cargaHoraria;
+    getline(cin, cargaHoraria);
     info_dat << cargaHoraria << "\n";
     cout << "Digite o caminho da assinatura: ";
     getline(cin, assinaturaPath);
