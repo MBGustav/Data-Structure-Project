@@ -29,68 +29,36 @@ int main(){
     int cargaHoraria;
     Fila* fPessoas = new Fila();
     bool temArquivo = true;
-
-    //Buscando o arquivo info.dat
-    streampos pos;
-    ifstream infile;
-    infile.open("info.dat", ios::in);
-    if (!infile) {
-        temArquivo = false;
-    } else {
-        //Puxar o nome do evento
-        infile.seekg(0, ios::beg);
-        char bufferEvento[sizeof(Evento)];
-        infile.read(bufferEvento, sizeof(Evento));
-        Evento eventoTemp = *reinterpret_cast<Evento*>(bufferEvento);
-        nEvento = eventoTemp.nomeEvento;
-        infile.close();
-    }
-    if (temArquivo) {
-        //Perguntar se deseja criar outro evento
-        cout << "Arquivo \"info.dat\" correspondente ao evento " << nEvento << " encontrado!\nDeseja criar outro evento?: " << endl;
-        cout << "1. Utilizar o  \"info.dat\" atual" << endl;
-        cout << "2. Criar outro evento" << endl;
-        cin >> controle;
-        while (controle != 1 && controle != 2)
-        {
-            switch (controle)
-            {
-            case 1:
-                //Nada a ser feito
-                break;
-            
-            case 2:
-                //Criando outro "info.dat"
-                cria_info_dat();
-                break;
-            default:
-                cout << "Codigo invalido!" << endl;
-                break;
-            }
-        }
-    } else {
-        //Criando "info.dat"
-        cria_info_dat();
-    }
+    
+    //Criando "info.dat"
+    cria_info_dat();
 
     //Carregando as informações do "info.dat"
+    vector<string> info_dat_vector;
     fstream info_dat;
     info_dat.open("./resources/info.dat", ios::in);
-    string line;
-    while (info_dat >> line) {
-        //Precisa implementar o arquivo texto no padrão .csv, mesmo...
-
+    string line, cell;
+    while (getline(info_dat, line)) {
+        stringstream lineStream(line);
+        while(getline(lineStream, cell, ',')) {
+            info_dat_vector.push_back(cell);
+        }
     }
-    
-    
+    info_dat.close();
+
+    //Atualizando parâmetros locais
+    nEvento = info_dat_vector[0];
 
     //Seguindo para a manipulação do arquivo de participantes
     controle = 0;
     while (controle != 2)
     {
+        cout << "====Emissao de certificados para o evento \"" << nEvento << "\"====" << endl;
         cout << "O que deseja fazer?" << endl;
         cout << "1. Inserir um participante na lista" << endl;
         cout << "2. Continuar para a emissão de certificados" << endl;
+        //Implementar dps uma opção p/carregar o data.csv de outro local...
+        
         cin >> controle;
         switch (controle)
         {
@@ -121,9 +89,7 @@ int main(){
         }
     }
     
-
     return 0;
-
 }
 
 
@@ -176,21 +142,21 @@ void cria_info_dat() {
     cout << "Configurando um novo evento" << endl;
     cout << "Digite o nome do evento: ";
     getline(cin, nEvento);
-    info_dat << nEvento << "\n";
+    info_dat << nEvento << ",";
     cout << "Digite o tipo do evento (curso, palestra, etc.): ";
     getline(cin, tEvento);
-    info_dat << tEvento << "\n";
+    info_dat << tEvento << ",";
     cout << "Digite a carga horaria do evento: ";
     getline(cin, cargaHoraria);
-    info_dat << cargaHoraria << "\n";
+    info_dat << cargaHoraria << ",";
     cout << "Digite o caminho da assinatura: ";
     getline(cin, assinaturaPath);
-    info_dat << assinaturaPath << "\n";
+    info_dat << assinaturaPath << ",";
     cout << "Digite o nome do responsavel: ";
     getline(cin, nResponsavel);
-    info_dat << nResponsavel << "\n";
+    info_dat << nResponsavel << ",";
     cout << "Digite o cargo do responsavel: ";
     getline(cin, cargoResponsavel);
-    info_dat << cargoResponsavel << "\n";
+    info_dat << cargoResponsavel << ",";
     info_dat.close();
 }
