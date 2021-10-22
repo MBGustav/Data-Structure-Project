@@ -7,7 +7,7 @@
 #include "Fila.hpp"
 #include "geradorPDF.cpp"
 #include "Evento.cpp"
-//Incluir pessoa_hpp
+#include "Pessoa.hpp"
 
 using namespace std;
 
@@ -21,7 +21,7 @@ int main(){
     //Decl. Globais
     bool deuCerto = true;
     int controle = 0;
-    Pessoa p;
+    Pessoa* p;
     //Parâmetros da pessoa
     string nome, cpf;
     //Parâmetros do evento
@@ -58,7 +58,7 @@ int main(){
         cout << "1. Inserir um participante na lista" << endl;
         cout << "2. Continuar para a emissão de certificados" << endl;
         //Implementar dps uma opção p/carregar o data.csv de outro local...
-        
+
         cin >> controle;
         switch (controle)
         {
@@ -75,10 +75,10 @@ int main(){
             fPessoas->Retira(fPessoas, &p, &deuCerto);
             while (deuCerto)
             {
-                cout << "Nome: " << p.nome << endl;
-                cout << "Documento: " << p.cpf << endl;
+                cout << "Nome: " << p->getNome() << endl;
+                cout << "Documento: " << p->getDocumento() << endl;
                 cout << "==================" << endl;
-                geraCertificado2(p.nome, nEvento);
+                geraCertificado2(p->getNome(), nEvento);
                 fPessoas->Retira(fPessoas, &p, &deuCerto);
             }
             
@@ -106,7 +106,7 @@ void CSVcreator(string fPath, string nome, string cpf) {
     fstream arq;
     arq.open(fPath, ios::out | ios::app);
     //Gravando as informações no arquivo
-    arq << nome << ", ";
+    arq << nome << ",";
     arq << cpf << "\n";
 }
 
@@ -127,9 +127,7 @@ void CSVtoFila(string fPath, Fila* f)
             lineVector.push_back(celula);
         }
         //Criando um objeto Pessoa com as informações desta linha
-        Pessoa p;
-        p.nome = lineVector[0];
-        p.cpf = lineVector[1];
+        Pessoa* p = new Pessoa(lineVector[0], lineVector[1]);
         f->Insere(f, p, &deuCerto);
     }
 }
@@ -157,6 +155,6 @@ void cria_info_dat() {
     info_dat << nResponsavel << ",";
     cout << "Digite o cargo do responsavel: ";
     getline(cin, cargoResponsavel);
-    info_dat << cargoResponsavel << ",";
+    info_dat << cargoResponsavel;
     info_dat.close();
 }

@@ -1,16 +1,4 @@
-
-/*    Pessoa(char* nome, char* nDocumento);
- ~Pessoa();
-
-
- int getPresenca();
- double* getNotas();
- void setPresenca(int presenca);
- void setNota(int pos, double nota);
-*/
 #include "Pessoa.hpp"
-
-
 
 Pessoa::Pessoa(string nome, string documento)
 {
@@ -21,7 +9,7 @@ Pessoa::Pessoa(string nome, string documento)
 Pessoa::~Pessoa(){}
 string Pessoa::getNome()
 {
-    return nome;
+  return nome;
 }
 string Pessoa::getDocumento()
 {
