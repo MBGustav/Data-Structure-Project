@@ -6,7 +6,7 @@
 
 #include "Fila.hpp"
 #include "geradorPDF.cpp"
-#include "Evento.cpp"
+#include "Evento.h"
 #include "Pessoa.hpp"
 
 using namespace std;
@@ -22,16 +22,14 @@ int main(){
     bool deuCerto = true;
     int controle = 0;
     Pessoa* p;
-    //Parâmetros da pessoa
-    string nome, cpf;
-    //Parâmetros do evento
-    string nEvento, tEvento, assinaturaPath, nResponsavel, cargoResponsavel;
+    string nome, cpf; //Parâmetros da pessoa
+    string nEvento, tEvento, assinaturaPath, logoPath, nResponsavel, cargoResponsavel; //Parâmetros do evento
     int cargaHoraria;
     Fila* fPessoas = new Fila();
     bool temArquivo = true;
     
     //Criando "info.dat"
-    cria_info_dat();
+    //cria_info_dat();
 
     //Carregando as informações do "info.dat"
     vector<string> info_dat_vector;
@@ -48,6 +46,14 @@ int main(){
 
     //Atualizando parâmetros locais
     nEvento = info_dat_vector[0];
+    tEvento = info_dat_vector[1];
+    cargaHoraria = stoi(info_dat_vector[2]);
+    assinaturaPath = info_dat_vector[3];
+    logoPath = info_dat_vector[4];
+    nResponsavel = info_dat_vector[5];
+    cargoResponsavel = info_dat_vector[6];
+
+    Evento evento = {nEvento, tEvento, cargaHoraria, assinaturaPath, logoPath, nResponsavel, cargoResponsavel};
 
     //Seguindo para a manipulação do arquivo de participantes
     controle = 0;
@@ -65,20 +71,19 @@ int main(){
         case 1:
             cin.ignore(64, '\n');
             novoCadastro(&nome, &cpf);
-            CSVcreator("data.csv", nome, cpf);
+            CSVcreator("./resources/data.csv", nome, cpf);
             break;
         
         case 2:
             cout << "Passando para a emissão dos certificados..." << endl;
-            CSVtoFila("data.csv", fPessoas);
-            cout << "Testando a inserção na fila..." << endl;
+            CSVtoFila("./resources/data.csv", fPessoas);
             fPessoas->Retira(fPessoas, &p, &deuCerto);
             while (deuCerto)
             {
                 cout << "Nome: " << p->getNome() << endl;
                 cout << "Documento: " << p->getDocumento() << endl;
                 cout << "==================" << endl;
-                geraCertificado2(p->getNome(), nEvento);
+                geraCertificado2(p->getNome(), evento);
                 fPessoas->Retira(fPessoas, &p, &deuCerto);
             }
             
@@ -133,7 +138,7 @@ void CSVtoFila(string fPath, Fila* f)
 }
 
 void cria_info_dat() {
-    string nEvento, tEvento, cargaHoraria, assinaturaPath, nResponsavel, cargoResponsavel;
+    string nEvento, tEvento, cargaHoraria, assinaturaPath, logoPath, nResponsavel, cargoResponsavel;
     fstream info_dat;
     info_dat.open("./resources/info.dat", ios::out | ios::trunc);
     //Lendo as informações necessárias
@@ -141,15 +146,18 @@ void cria_info_dat() {
     cout << "Digite o nome do evento: ";
     getline(cin, nEvento);
     info_dat << nEvento << ",";
-    cout << "Digite o tipo do evento (curso, palestra, etc.): ";
+    cout << " \"Por ter [...]\": ";
     getline(cin, tEvento);
-    info_dat << tEvento << ",";
+    info_dat << "ter " + tEvento << ",";
     cout << "Digite a carga horaria do evento: ";
     getline(cin, cargaHoraria);
     info_dat << cargaHoraria << ",";
     cout << "Digite o caminho da assinatura: ";
     getline(cin, assinaturaPath);
     info_dat << assinaturaPath << ",";
+    cout << "Digite o caminho da logomarca: ";
+    getline(cin, logoPath);
+    info_dat << logoPath << ",";
     cout << "Digite o nome do responsavel: ";
     getline(cin, nResponsavel);
     info_dat << nResponsavel << ",";

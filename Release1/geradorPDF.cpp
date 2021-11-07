@@ -2,32 +2,24 @@
 #include <iostream>
 #include <string>
 #include <podofo.h>
-
+#include "Evento.h"
 using namespace PoDoFo;
 /*
  * PLEASE UPDATE THE FOLLOWING PARAMETERS BEFORE PROCEEDING
  */
 
-string outputLoc = "./PDFoutput/";
-string imagePath = "./resources/medal.png";
-const char* imageSrc = imagePath.c_str();
+std::string outputLoc = "./PDFoutput/";
+//std::string imagePath = "./resources/medal.png";
+//const char* imageSrc = imagePath.c_str();
+
 /* modelPdf: Set the variable in case you want to generate the certificate by modifying an existing PDF file (such as a form)
  * and use the "geraCertificado2" function when iterating through a "Fila". We'll probably use these only on later versions
  */
-string modelPdf = "./resources/preview_illustrator.pdf";
+std::string modelPdf = "./resources/templateCertificado.pdf";
 const char* modelPdfSrc = modelPdf.c_str();
 
-
-void PrintHelp()
-{
-    std::cout << "This is a example application for the PoDoFo PDF library." << std::endl
-              << "It creates a small PDF file containing the text >Hello World!<" << std::endl
-              << "Please see http://podofo.sf.net for more information" << std::endl << std::endl;
-    std::cout << "Usage:" << std::endl;
-    std::cout << "  examplehelloworld [outputfile.pdf]" << std::endl << std::endl;
-}
-
-void geraCertificado( std::string nome, std::string evento )
+/*
+void geraCertificado(std::string nome, Evento evento)
 {   
     std::string fName = outputLoc + nome + ".pdf";
     const char* fNameExt = fName.c_str();
@@ -56,13 +48,8 @@ void geraCertificado( std::string nome, std::string evento )
     pFont->SetFontSize( 18.0 );
 
     painter.SetFont( pFont );
-    
-    std::string msgInicial = "Concedemos este certificado a";
-    const char* msgInicial_c = msgInicial.c_str();
-    painter.DrawText( 56.69, pPage->GetPageSize().GetHeight() - 56.69, msgInicial_c );
-    
 
-    painter.DrawText( 150.00, (pPage->GetPageSize().GetHeight())/2, nome.c_str() );
+    painter.DrawText( 56.69, (pPage->GetPageSize().GetHeight())/2, nome.c_str() );
     
     std::string msgFinal = "Por ter comparecido ao evento " + evento;
     const char* msgFinal_c = msgFinal.c_str();
@@ -86,8 +73,9 @@ void geraCertificado( std::string nome, std::string evento )
     //Fechando o documento
     document.Close();
 }
+*/
 
-void geraCertificado2(std::string nome,std::string evento)
+void geraCertificado2(std::string nome, Evento e)
 {
     //Definindo o nome do arquivo final (nome do participante)
     std::string fName = outputLoc + nome + ".pdf";
@@ -112,22 +100,39 @@ void geraCertificado2(std::string nome,std::string evento)
     {
         PODOFO_RAISE_ERROR( ePdfError_InvalidHandle );
     }
-    pFont->SetFontSize(18.0);
+    pFont->SetFontSize(24.0);
     painter.SetFont(pFont);
     //painter.SetColor(63.0, 0, 0 ); //Vermelhinho pra aparecer mais
     
-    /*Agora sim, escrevemos o que quisermos*/
-    std::string msgInicial = "Concedemos este certificado a";
-    const char* msgInicial_c = msgInicial.c_str();
-    painter.DrawText( 56.69, pPage->GetPageSize().GetHeight() - 56.69, msgInicial_c );
-    
+    //Escrevendo no certificado
 
-    painter.DrawText( 150.00, (pPage->GetPageSize().GetHeight())/2, nome.c_str() );
+    //Nome
+    painter.DrawText(98, pPage->GetPageSize().GetHeight() - 223, nome.c_str() );
     
-    std::string msgFinal = "Por ter comparecido ao evento " + evento;
-    const char* msgFinal_c = msgFinal.c_str();
-    painter.DrawText( 56.69, 56.69, msgFinal_c );
+    //Por ter [...]
+    painter.DrawText(155, pPage->GetPageSize().GetHeight() - 279, e.descritivo.c_str());
     
+    //Evento
+    painter.DrawText(98, pPage->GetPageSize().GetHeight() - 333, e.nomeEvento.c_str());
+
+    //Carga Horária
+    painter.DrawText(461, pPage->GetPageSize().GetHeight() - 395, to_string(e.cargaHoraria).c_str());
+
+    //Logo
+    PdfImage logo(&pdfExistente);
+    logo.LoadFromFile((e.logoPath).c_str());
+    painter.DrawImage(635, pPage->GetPageSize().GetHeight() - 103, &logo);
+
+    //Assinatura
+    PdfImage signature(&pdfExistente);
+    signature.LoadFromFile((e.assinaturaPath).c_str());
+    painter.DrawImage(98, pPage->GetPageSize().GetHeight() - 500, &signature);
+
+    //Dados do responsável
+    pFont->SetFontSize(16.0);
+    painter.DrawText(118, pPage->GetPageSize().GetHeight() - 530, e.responsavel);
+    painter.DrawText(118, pPage->GetPageSize().GetHeight() - 550, e.cargo);
+
     //Encerrando a manipulação da página
     painter.FinishPage();
     
