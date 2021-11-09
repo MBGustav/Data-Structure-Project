@@ -29,7 +29,7 @@ int main(){
     bool temArquivo = true;
     
     //Criando "info.dat"
-    //cria_info_dat();
+    cria_info_dat();
 
     //Carregando as informações do "info.dat"
     vector<string> info_dat_vector;
